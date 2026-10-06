@@ -1,13 +1,17 @@
-from app.repositories.cat import get_cat
+from app.repositories.cat import cat
 from app.service import service
+from app.repositories.dog import dog
 
-cat = get_cat()
-service.write_to_file(cat)
-cat_str = service.read_from_file()
-print(cat_str)
 
-cat_list = service.parse_row(cat_str)
-print(cat_list)
+cat_1 = cat
+service.write_to_file_cat(cat_1)
 
-cat_2 = service.list_to_class(cat_list)
-print(cat_2)
+
+dog_2 = dog
+service.write_to_file_dog(dog)
+service.write_to_file_dog(dog)
+
+
+file_read = service.read_from_file()
+print(file_read)
+
