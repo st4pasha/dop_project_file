@@ -87,14 +87,14 @@ def parse_colors(colors: str):
         return []
 
 def get_id():
-    strings = read_from_file(metadata_file_path)
+    strings = read_from_file(metadata_file_path)[::-1]
     id = strings[0].strip()
     return id
 
 def write_new_id():
     id_now = get_id()
     if id_now != "":
-        write_to_file(str(int(id_now) + 1), metadata_file_path)
+        write_to_file(["id_max\n" + str(int(id_now) + 1)], metadata_file_path)
     else: 
         write_to_file("1", metadata_file_path)
 

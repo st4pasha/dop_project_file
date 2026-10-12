@@ -1,4 +1,4 @@
-from app.repositories.cat import update_cats_data, cat_file_path, list_to_class, read_cats_data, cat_to_string, cats, write_to_file_cat
+from app.repositories.cat import update_cats_data, cat_file_path, list_to_class, read_cats_data, write_new_id, cat_to_string, get_id, write_to_file_cat
 from app.models.cat_class import Cat
 from app.util import read_from_file, list_to_string, write_to_file
 
@@ -12,5 +12,7 @@ update_cats_data(cats)
 
 cats = read_cats_data()
 print(cats)"""
-cat = cats[0]
-write_to_file_cat(cat)
+
+print(get_id())
+write_new_id()
+print(get_id())
