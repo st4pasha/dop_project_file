@@ -17,20 +17,22 @@ def find_all() -> list[Cat]:
     return cat_lst
 
 def get_by_id(id: int):
-    cat_str = ""
     cats_str = read_from_file(cat_file_path)
     for row in cats_str:
         if row[0] == str(id):
             cat_str = row[2::]
             cat = __str_to_class(cat_str)
             return cat
-    return "Cat not found"
+    return Cat()
  
 def search_by_name(name: str):
     pass
 
 def create_cat(name: str, age: int, weight: float, vaccinated: bool, colors: list[str]):
-    return Cat(name, age, weight, vaccinated, colors)
+    cat = Cat(name, age, weight, vaccinated, colors)
+    id = __get_last_id()
+    __write_to_file_cat(cat)
+    return id, cat
 
 def update_cats_data(cats: list[Cat]):
     lst_str = []
@@ -46,8 +48,8 @@ def update_cats_data(cats: list[Cat]):
 #private function
 def __cat_to_string(cat: Cat) -> str: 
     lst = [] # ['Барсик', '3', '4.5','True','['белый', 'рыжий']']
-    id = get_last_id()
-    write_new_id()
+    id = __get_last_id()
+    __write_new_id()
 
     lst.append(str(id))
     lst.append(str(cat.name))
@@ -77,7 +79,7 @@ def __str_to_class(str: str) -> Cat: # Барсик|3|4.5|True|['белый', '�
 
 def __write_to_file_cat(cat):
     with open(cat_file_path, 'a') as file:
-        file.write(cat_to_string(cat).rstrip('\n') + '\n')
+        file.write(__cat_to_string(cat).rstrip('\n') + '\n')
 
 def __parse_colors(colors: str):
     colors_lst = colors.split(",")
@@ -109,7 +111,7 @@ def __get_last_id():
     return id
 
 def __write_new_id():
-    id_now = get_last_id()
+    id_now = __get_last_id()
     if id_now != "":
         write_to_file(["last_id\n" + str(int(id_now) + 1)], metadata_file_path)
     else: 
