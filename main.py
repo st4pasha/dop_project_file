@@ -1,13 +1,18 @@
-from app.repositories.cat import get_cat
-from app.service import service
+from app.repositories.cat import update_cats_data, cat_file_path, list_to_class, read_cats_data, write_new_id, cat_to_string, get_id, write_to_file_cat
+from app.models.cat_class import Cat
+from app.util import read_from_file, list_to_string, write_to_file
 
-cat = get_cat()
-service.write_to_file(cat)
-cat_str = service.read_from_file()
-print(cat_str)
+# прочитать файл найди барсика 2 заменить ему имя на пушок обновить данные 
 
-cat_list = service.parse_row(cat_str)
-print(cat_list)
+"""cats = read_cats_data()
+for cat in cats:
+    if cat.name == "Барсик2":
+        cat.name = "Пушок"
+update_cats_data(cats)
 
-cat_2 = service.list_to_class(cat_list)
-print(cat_2)
+cats = read_cats_data()
+print(cats)"""
+
+print(get_id())
+write_new_id()
+print(get_id())
