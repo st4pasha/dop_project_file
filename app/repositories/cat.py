@@ -7,14 +7,32 @@ cat_file_path = "app/data/cats.csv"
 metadata_file_path = "app/data/cats_metadata.csv"
 
 #public function
-def read_cats_data() -> list[Cat]:
+def find_all() -> list[Cat]:
     lst_str = read_from_file(cat_file_path)[1::]
     cat_lst = []
     for row in lst_str:
         cat_str = row.rstrip('\n')
-        cat = list_to_class(cat_str)
+        cat = __str_to_class(cat_str)
         cat_lst.append(cat)
     return cat_lst
+
+def get_by_id(id: int):
+    cats_str = read_from_file(cat_file_path)
+    for row in cats_str:
+        if row[0] == str(id):
+            cat_str = row[2::]
+            cat = __str_to_class(cat_str)
+            return cat
+    return Cat()
+ 
+def search_by_name(name: str):
+    pass
+
+def create_cat(name: str, age: int, weight: float, vaccinated: bool, colors: list[str]):
+    cat = Cat(name, age, weight, vaccinated, colors)
+    id = __get_last_id()
+    __write_to_file_cat(cat)
+    return id, cat
 
 def update_cats_data(cats: list[Cat]):
     lst_str = []
@@ -26,11 +44,12 @@ def update_cats_data(cats: list[Cat]):
 
     write_to_file(lst_str, cat_file_path)
 
+
 #private function
-def cat_to_string(cat: Cat) -> str: 
+def __cat_to_string(cat: Cat) -> str: 
     lst = [] # ['Барсик', '3', '4.5','True','['белый', 'рыжий']']
-    id = get_id()
-    write_new_id()
+    id = __get_last_id()
+    __write_new_id()
 
     lst.append(str(id))
     lst.append(str(cat.name))
@@ -42,7 +61,7 @@ def cat_to_string(cat: Cat) -> str:
     return "|".join(lst)
 
 # lst -> Cat
-def list_to_class(str: str) -> Cat: # Барсик|3|4.5|True|['белый', 'рыжий']
+def __str_to_class(str: str) -> Cat: # Барсик|3|4.5|True|['белый', 'рыжий']
     # str -> 'Барсик', '3', '4.5','True','['белый', 'рыжий']'
     # name = Барсик
     # age = 3 (число)
@@ -58,11 +77,11 @@ def list_to_class(str: str) -> Cat: # Барсик|3|4.5|True|['белый', 'р
     cat = Cat(name, age, weight, vaccinated, colors)
     return cat
 
-def write_to_file_cat(cat):
+def __write_to_file_cat(cat):
     with open(cat_file_path, 'a') as file:
-        file.write(cat_to_string(cat).rstrip('\n') + '\n')
+        file.write(__cat_to_string(cat).rstrip('\n') + '\n')
 
-def parse_colors(colors: str):
+def __parse_colors(colors: str):
     colors_lst = colors.split(",")
     if len(colors_lst) > 0 and colors_lst != ['[]']:
 
@@ -86,13 +105,13 @@ def parse_colors(colors: str):
     else:
         return []
 
-def get_last_id():
+def __get_last_id():
     strings = read_from_file(metadata_file_path)[::-1]
     id = strings[0].strip()
     return id
 
-def write_new_id():
-    id_now = get_last_id()
+def __write_new_id():
+    id_now = __get_last_id()
     if id_now != "":
         write_to_file(["last_id\n" + str(int(id_now) + 1)], metadata_file_path)
     else: 
